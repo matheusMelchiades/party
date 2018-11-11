@@ -16,7 +16,7 @@ public class Party {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private Integer number;
 
     public long getId() { return id; }

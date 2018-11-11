@@ -41,6 +41,7 @@ public class PartyService {
     public PartyOutput create(PartyInput partyInput){
         validateInput(partyInput);
         Party party = modelMappaer.map(partyInput, Party.class);
+
         party = partyRepository.save(party);
         return modelMappaer.map(party, PartyOutput.class);
     }
@@ -101,10 +102,14 @@ public class PartyService {
         if (StringUtils.isBlank(partyInput.getCode())) {
             throw new GenericOutputException("Invalid Code");
         }
-        if (StringUtils.isBlank(partyInput.getName())) {
+        if (StringUtils.isBlank(partyInput.getName()) ||
+                (partyInput.getName().trim().replace(" ", "").length()) < 5)
+        {
             throw new GenericOutputException("Invalid name");
         }
-        if (StringUtils.isBlank(" " + partyInput.getNumber())){
+
+        if (StringUtils.isBlank(" " + partyInput.getNumber()) ||
+                partyInput.getNumber().toString().length() < 2){
             throw new GenericOutputException("Invalid Number");
         }
     }
