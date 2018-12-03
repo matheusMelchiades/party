@@ -102,6 +102,11 @@ public class PartyService {
         if (StringUtils.isBlank(partyInput.getCode())) {
             throw new GenericOutputException("Invalid Code");
         }
+
+        if(partyRepository.findFirstByCode(partyInput.getCode()).orElse(null) != null) {
+            throw  new GenericOutputException("Invalid Code");
+        }
+
         if (StringUtils.isBlank(partyInput.getName()) ||
                 (partyInput.getName().trim().replace(" ", "").length()) < 5)
         {
@@ -110,6 +115,10 @@ public class PartyService {
 
         if (StringUtils.isBlank(" " + partyInput.getNumber()) ||
                 partyInput.getNumber().toString().length() < 2){
+            throw new GenericOutputException("Invalid Number");
+        }
+
+        if (partyRepository.findFirstByNumber(partyInput.getNumber()).orElse(null) != null) {
             throw new GenericOutputException("Invalid Number");
         }
     }
